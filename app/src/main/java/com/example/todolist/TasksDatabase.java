@@ -13,7 +13,7 @@ public class TasksDatabase extends SQLiteOpenHelper
 {
 
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "tasks_db";
     private static final String DATABASE_TABLE = "taskstable";
 

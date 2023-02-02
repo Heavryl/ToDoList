@@ -71,6 +71,9 @@ public class AddTask extends AppCompatActivity {
         chosenEndDate.setText(currentDate);
     }
 
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -83,12 +86,12 @@ public class AddTask extends AppCompatActivity {
     {
         if (item.getItemId() == R.id.save_task)
         {
-            Task task = new Task(taskTitle.getText().toString(), taskDetails.getText().toString(), currentDate, chosenEndDate.toString());
+            Task task = new Task(taskTitle.getText().toString(), taskDetails.getText().toString(), currentDate, chosenEndDate.getText().toString());
             TasksDatabase db = new TasksDatabase( this);
             db.addTask(task);
 
             Toast.makeText(this, "Saving task...", Toast.LENGTH_SHORT).show();
-            onBackPressed();
+            goToMain();
         }
         if (item.getItemId() == R.id.delete_task)
         {
@@ -97,6 +100,11 @@ public class AddTask extends AppCompatActivity {
             Toast.makeText(this, "Deleting task...", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToMain(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
