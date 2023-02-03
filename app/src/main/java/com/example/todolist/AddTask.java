@@ -37,7 +37,6 @@ public class AddTask extends AppCompatActivity {
 
         setActionBar(toolbar);
         getActionBar().setTitle("New Task");
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         taskTitle = findViewById(R.id.taskTitle);
         taskDetails = findViewById(R.id.taskDetails);
@@ -129,7 +128,7 @@ public class AddTask extends AppCompatActivity {
             }
 
         }
-        if (item.getItemId() == R.id.calncelAddTask)
+        if (item.getItemId() == R.id.cancelAddTask)
         {
 
             onBackPressed();

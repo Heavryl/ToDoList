@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/calncelAddTask"
+        android:id="@+id/cancelAddTask"
         android:icon="@drawable/ic_baseline_cancel_24"
         android:title="Delete"
         app:showAsAction="ifRoom" />

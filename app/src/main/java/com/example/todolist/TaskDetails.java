@@ -19,6 +19,7 @@ public class TaskDetails extends AppCompatActivity {
     TextView tDetails, chosenEndDate;
 
     Task task;
+    Toolbar toolbar;
 
 
     @Override
@@ -27,31 +28,31 @@ public class TaskDetails extends AppCompatActivity {
 
         setContentView(R.layout.activity_task_details);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setActionBar(toolbar);
+
 
         Intent intent = getIntent();
         id = intent.getLongExtra("ID", 0);
-        Toast.makeText(this,"task details ID ->" + id,Toast.LENGTH_SHORT).show();
 
         TasksDatabase db = new TasksDatabase(this);
         task = db.getTask(id);
 
-        tDetails = findViewById(R.id.detailsOftask);
+        tDetails = findViewById(R.id.detailsOfTask);
         chosenEndDate = findViewById(R.id.detailsDeadline);
 
+        toolbar = findViewById(R.id.toolbar);
+        setActionBar(toolbar);
         getActionBar().setTitle(task.getTitle());
 
         tDetails.setText(task.getContent());
         chosenEndDate.setText(task.getDeadline());
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.details_menu, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)

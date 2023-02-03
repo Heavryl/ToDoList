@@ -5,11 +5,11 @@
     <item
         android:id="@+id/detailsDeleteTask"
         android:icon="@drawable/ic_baseline_delete_24"
-        android:title="deleteTask"
+        android:title="@string/deletetask"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/detailsEditTask"
         android:icon="@drawable/ic_baseline_edit_24"
-        android:title="editTask"
+        android:title="@string/edittask"
         app:showAsAction="ifRoom" />
 </menu>
