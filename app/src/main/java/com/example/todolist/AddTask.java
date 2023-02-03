@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class AddTask extends AppCompatActivity {
@@ -71,7 +74,29 @@ public class AddTask extends AppCompatActivity {
         chosenEndDate.setText(currentDate);
     }
 
+    public interface DateValidator {
+        boolean isValid(String dateStr);
+    }
 
+    public class DateValidatorUsingDateFormat implements DateValidator {
+        private String dateFormat;
+
+        public DateValidatorUsingDateFormat(String dateFormat) {
+            this.dateFormat = dateFormat;
+        }
+
+        @Override
+        public boolean isValid(String dateStr) {
+            DateFormat sdf = new SimpleDateFormat(this.dateFormat);
+            sdf.setLenient(false);
+            try {
+                sdf.parse(dateStr);
+            } catch (ParseException e) {
+                return false;
+            }
+            return true;
+        }
+    }
 
 
     @Override
@@ -86,12 +111,23 @@ public class AddTask extends AppCompatActivity {
     {
         if (item.getItemId() == R.id.save_task)
         {
-            Task task = new Task(taskTitle.getText().toString(), taskDetails.getText().toString(), currentDate, chosenEndDate.getText().toString());
-            TasksDatabase db = new TasksDatabase( this);
-            db.addTask(task);
+            DateValidator validator = new DateValidatorUsingDateFormat("yyyy/MM/dd");
+            boolean dateFormatOk = false;
+            dateFormatOk = validator.isValid(chosenEndDate.getText().toString());
+            if  (dateFormatOk)
+            {
+                Task task = new Task(taskTitle.getText().toString(), taskDetails.getText().toString(), currentDate, chosenEndDate.getText().toString());
+                TasksDatabase db = new TasksDatabase( this);
+                db.addTask(task);
 
-            Toast.makeText(this, "Saving task...", Toast.LENGTH_SHORT).show();
-            goToMain();
+                Toast.makeText(this, "Saving task...", Toast.LENGTH_SHORT).show();
+                goToMain();
+            }
+            else
+            {
+                Toast.makeText(this, "Incorrect date format, should be yyyy/MM/dd.", Toast.LENGTH_SHORT).show();
+            }
+
         }
         if (item.getItemId() == R.id.delete_task)
         {

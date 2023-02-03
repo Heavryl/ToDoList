@@ -13,12 +13,20 @@
         android:theme="@style/Theme.ToDoList"
         tools:targetApi="31">
         <activity
+            android:name=".TaskDetails"
+            android:exported="false"
+            android:label="@string/title_activity_task_details"
+            android:theme="@style/Theme.ToDoList.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AddTask"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
         <activity
             android:name=".MainActivity"

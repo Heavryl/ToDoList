@@ -1,5 +1,6 @@
 package com.example.todolist;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -74,7 +75,7 @@ public class TasksDatabase extends SQLiteOpenHelper
     public Task getTask(long id)
     {
       SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(DATABASE_TABLE, new String[] {KEY_ID,KEY_TITLE,KEY_CONTENT,KEY_DATE,KEY_DEADLINE}, KEY_ID +"=?",
+        @SuppressLint("Recycle") Cursor cursor = db.query(DATABASE_TABLE, new String[] {KEY_ID,KEY_TITLE,KEY_CONTENT,KEY_DATE,KEY_DEADLINE}, KEY_ID +"=?",
                 new String[]{String.valueOf(id)}, null,null,null, null );
 
         if (cursor != null)
@@ -82,7 +83,9 @@ public class TasksDatabase extends SQLiteOpenHelper
             cursor.moveToFirst();
         }
         //getting data from database using cursor
-        return new Task (cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+
+        return new Task (cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)) ;
+
     }
 
     public List<Task> getAllTasks()
@@ -109,7 +112,7 @@ public class TasksDatabase extends SQLiteOpenHelper
 
             }while(cursor.moveToNext());
         }
-
+        cursor.close();
         return allTasks;
     }
 }
