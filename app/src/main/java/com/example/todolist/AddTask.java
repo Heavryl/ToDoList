@@ -125,15 +125,15 @@ public class AddTask extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(this, "Incorrect date format, should be yyyy/MM/dd.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Incorrect date, correct it in format yyyy/MM/dd.", Toast.LENGTH_SHORT).show();
             }
 
         }
-        if (item.getItemId() == R.id.delete_task)
+        if (item.getItemId() == R.id.calncelAddTask)
         {
 
             onBackPressed();
-            Toast.makeText(this, "Deleting task...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Task adding canceled.", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -145,6 +145,7 @@ public class AddTask extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        goToMain();
         super.onBackPressed();
     }
 }

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         tasks = db.getAllTasks();
 
         recyclerView = findViewById(R.id.listOfTasks);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new Adapter(this, tasks);

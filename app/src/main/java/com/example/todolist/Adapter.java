@@ -1,10 +1,12 @@
 package com.example.todolist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
 
     LayoutInflater inflater;
     List<Task> tasks;
+
     Adapter (Context context, List<Task> tasks){
         this.inflater = LayoutInflater.from(context);
         this.tasks = tasks;
@@ -34,12 +37,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position)
     {
         //binding text views with data from database
-        String title = tasks.get(position).getTitle();
+        String title        = tasks.get(position).getTitle();
         String creationDate = tasks.get(position).getDate();
-        String endDate = tasks.get(position).getDeadline();
+        String endDate      = tasks.get(position).getDeadline();
+        long id             = tasks.get(position).getID();
+
         holder.taskViewTitle.setText(title);
         holder.taskViewCreationDate.setText(creationDate);
         holder.taskViewEndDate.setText(endDate);
+        holder.taskViewID.setText(String.valueOf(tasks.get(position).getID()));
     }
 
     @Override
@@ -50,13 +56,21 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView taskViewTitle, taskViewCreationDate, taskViewEndDate;
+        TextView taskViewTitle, taskViewCreationDate, taskViewEndDate, taskViewID;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
-            taskViewTitle = itemView.findViewById(R.id.taskViewTitle);
-            taskViewCreationDate = itemView.findViewById(R.id.taskViewCreationDate);
-            taskViewEndDate = itemView.findViewById(R.id.taskViewEndDate);
+            taskViewTitle           = itemView.findViewById(R.id.taskViewTitle);
+            taskViewCreationDate    = itemView.findViewById(R.id.taskViewCreationDate);
+            taskViewEndDate         = itemView.findViewById(R.id.taskViewEndDate);
+            taskViewID              = itemView.findViewById(R.id.listId);
+
+            itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(view.getContext(),TaskDetails.class);
+                intent.putExtra("ID",tasks.get(getAdapterPosition()).getID());
+                view.getContext().startActivity(intent);
+            });
+
         }
     }
 

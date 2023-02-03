@@ -1,11 +1,11 @@
 package com.example.todolist;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class TasksDatabase extends SQLiteOpenHelper
 {
 
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "tasks_db";
     private static final String DATABASE_TABLE = "taskstable";
 
@@ -46,12 +46,7 @@ public class TasksDatabase extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion)
     {
-            if (oldVersion >= newVersion)
-            {
-                return;
-            }
-            else
-            {
+            if (oldVersion < newVersion) {
                 sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
                 onCreate(sqLiteDatabase);
             }
@@ -68,6 +63,7 @@ public class TasksDatabase extends SQLiteOpenHelper
         cv.put(KEY_DEADLINE, task.getDeadline());
 
         long ID = db.insert(DATABASE_TABLE, null, cv);
+        Log.d("Inserted", "ID-> " + ID);
 
         return ID;
     }
@@ -75,17 +71,22 @@ public class TasksDatabase extends SQLiteOpenHelper
     public Task getTask(long id)
     {
       SQLiteDatabase db = this.getReadableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.query(DATABASE_TABLE, new String[] {KEY_ID,KEY_TITLE,KEY_CONTENT,KEY_DATE,KEY_DEADLINE}, KEY_ID +"=?",
-                new String[]{String.valueOf(id)}, null,null,null, null );
+      String[] query = new String[] {KEY_ID,KEY_TITLE,KEY_CONTENT,KEY_DATE,KEY_DEADLINE};
+      Cursor cursor = db.query(DATABASE_TABLE,query,KEY_ID +"=?",
+              new String[]{String.valueOf(id)},null,null,null);
 
-        if (cursor != null)
+        if (cursor != null )
         {
             cursor.moveToFirst();
+            Log.d("Cursor 1st: ", "Cursor 1st on: " + cursor);
         }
         //getting data from database using cursor
-
-        return new Task (cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)) ;
-
+        return new Task (
+                cursor.getLong(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4));
     }
 
     public List<Task> getAllTasks()
@@ -93,7 +94,7 @@ public class TasksDatabase extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
         List<Task> allTasks = new ArrayList<>();
 
-        String query = "SELECT * FROM " + DATABASE_TABLE; //select all data from the database
+        String query = "SELECT * FROM " + DATABASE_TABLE + " ORDER BY " +KEY_ID+ " DESC"; //select all data from the database
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -108,6 +109,7 @@ public class TasksDatabase extends SQLiteOpenHelper
                 task.setDate(cursor.getString(3));
                 task.setDeadline(cursor.getString(4));
 
+                Log.d("ID: ", "ID-> " + task.getID());
                 allTasks.add(task);
 
             }while(cursor.moveToNext());
@@ -115,4 +117,23 @@ public class TasksDatabase extends SQLiteOpenHelper
         cursor.close();
         return allTasks;
     }
+
+    void deleteTask (long id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DATABASE_TABLE,KEY_ID+"=?",new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

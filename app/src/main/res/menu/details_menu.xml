@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/calncelAddTask"
-        android:icon="@drawable/ic_baseline_cancel_24"
-        android:title="Delete"
+        android:id="@+id/detailsDeleteTask"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="deleteTask"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/save_task"
-        android:icon="@drawable/ic_baseline_save_24"
-        android:title="Save"
+        android:id="@+id/detailsEditTask"
+        android:icon="@drawable/ic_baseline_edit_24"
+        android:title="editTask"
         app:showAsAction="ifRoom" />
 </menu>
