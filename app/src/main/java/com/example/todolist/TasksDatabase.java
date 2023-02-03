@@ -125,7 +125,7 @@ public class TasksDatabase extends SQLiteOpenHelper
         db.close();
     }
 
-    public int editNote(Task task){
+    public int editTask(Task task){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues c = new ContentValues();
         Log.d("Edited", "Edited Title: -> "+ task.getTitle() + "\n ID -> "+task.getID());

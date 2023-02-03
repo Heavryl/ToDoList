@@ -13,4 +13,12 @@
     <string name="LabelDeadline">Deadline:</string>
     <string name="edittask">editTask</string>
     <string name="deletetask">deleteTask</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="enter_task_title">Enter Task Title</string>
+    <string name="task_details">Task Details</string>
+    <string name="enter_task_end_date">Enter task end date</string>
+    <string name="addtask">AddTask</string>
+    <string name="taskslist">TasksList</string>
+    <string name="editedtask">EditTask</string>
 </resources>

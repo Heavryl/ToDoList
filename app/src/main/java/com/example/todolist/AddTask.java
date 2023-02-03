@@ -108,9 +108,9 @@ public class AddTask extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        if (item.getItemId() == R.id.save_task)
+        if (item.getItemId() == R.id.saveTask)
         {
-            DateValidator validator = new DateValidatorUsingDateFormat("yyyy/MM/dd");
+            DateValidatorUsingDateFormat validator = new DateValidatorUsingDateFormat("yyyy/MM/dd");
             boolean dateFormatOk = false;
             dateFormatOk = validator.isValid(chosenEndDate.getText().toString());
             if  (dateFormatOk)
@@ -128,7 +128,7 @@ public class AddTask extends AppCompatActivity {
             }
 
         }
-        if (item.getItemId() == R.id.cancelAddTask)
+        if (item.getItemId() == R.id.cancelTask)
         {
 
             onBackPressed();

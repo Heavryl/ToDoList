@@ -46,6 +46,8 @@ public class TaskDetails extends AppCompatActivity {
         tDetails.setText(task.getContent());
         chosenEndDate.setText(task.getDeadline());
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
