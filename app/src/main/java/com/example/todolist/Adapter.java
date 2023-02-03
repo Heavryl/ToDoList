@@ -66,9 +66,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
             taskViewID              = itemView.findViewById(R.id.listId);
 
             itemView.setOnClickListener(view -> {
+                Toast.makeText(view.getContext(),"Itemclicked",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(),TaskDetails.class);
                 intent.putExtra("ID",tasks.get(getAdapterPosition()).getID());
                 view.getContext().startActivity(intent);
+
             });
 
         }

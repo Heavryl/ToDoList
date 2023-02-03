@@ -1,13 +1,13 @@
 package com.example.todolist;
 
 public class Task {
-    private long ID;
+    private Long id;
     private String title;
     private String content;
     private String date;
     private String deadline;
 
-    Task(){}
+
 
     Task(String title, String content, String date, String deadline)
     {
@@ -17,23 +17,23 @@ public class Task {
         this.deadline = deadline;
     }
 
-    Task(long id, String title, String content, String date, String deadline)
+    Task(Long id, String title, String content, String date, String deadline)
     {
-        this.ID = id;
+        this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
         this.deadline = deadline;
     }
 
+    Task(){} // empty constructor
 
-
-    public long getID() {
-        return ID;
+    public Long getID() {
+        return id;
     }
 
-    public void setID(long ID) {
-        this.ID = ID;
+    public void setID(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

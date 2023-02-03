@@ -15,8 +15,8 @@ public class TasksDatabase extends SQLiteOpenHelper
 
 
     private static final int DATABASE_VERSION = 4;
-    private static final String DATABASE_NAME = "tasks_db";
-    private static final String DATABASE_TABLE = "taskstable";
+    private static final String DATABASE_NAME = "Tasks_db";
+    private static final String DATABASE_TABLE = "Taskstable";
 
     //column names for database table
     private static final String KEY_ID = "id";
@@ -35,24 +35,25 @@ public class TasksDatabase extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
-        String query = "CREATE TABLE " + DATABASE_TABLE + "(" + KEY_ID + " INT PRIMARY KEY," +
+        String query = "CREATE TABLE " + DATABASE_TABLE + " (" + KEY_ID + " INTEGER PRIMARY KEY," +
                 KEY_TITLE + " TEXT," +
                 KEY_CONTENT + " TEXT," +
                 KEY_DATE + " TEXT," +
-                KEY_DEADLINE + " TEXT" + ")";
+                KEY_DEADLINE + " TEXT" + " )";
         sqLiteDatabase.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion)
     {
-            if (oldVersion < newVersion) {
-                sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
-                onCreate(sqLiteDatabase);
-            }
+            if (oldVersion >= newVersion)
+                    return;
+
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+        onCreate(sqLiteDatabase);
     }
 
-    public long addTask(Task task)
+    public Long addTask(Task task)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -62,24 +63,21 @@ public class TasksDatabase extends SQLiteOpenHelper
         cv.put(KEY_DATE, task.getDate());
         cv.put(KEY_DEADLINE, task.getDeadline());
 
-        long ID = db.insert(DATABASE_TABLE, null, cv);
+        Long ID = db.insert(DATABASE_TABLE, null, cv);
         Log.d("Inserted", "ID-> " + ID);
 
         return ID;
     }
 
-    public Task getTask(long id)
+    public Task getTask(Long id)
     {
-      SQLiteDatabase db = this.getReadableDatabase();
+      SQLiteDatabase db = this.getWritableDatabase();
       String[] query = new String[] {KEY_ID,KEY_TITLE,KEY_CONTENT,KEY_DATE,KEY_DEADLINE};
       Cursor cursor = db.query(DATABASE_TABLE,query,KEY_ID +"=?",
               new String[]{String.valueOf(id)},null,null,null);
-
         if (cursor != null )
-        {
             cursor.moveToFirst();
-            Log.d("Cursor 1st: ", "Cursor 1st on: " + cursor);
-        }
+
         //getting data from database using cursor
         return new Task (
                 cursor.getLong(0),
@@ -108,22 +106,35 @@ public class TasksDatabase extends SQLiteOpenHelper
                 task.setContent(cursor.getString(2));
                 task.setDate(cursor.getString(3));
                 task.setDeadline(cursor.getString(4));
-
                 Log.d("ID: ", "ID-> " + task.getID());
+                Log.d("ID: ", "Title-> " + task.getTitle());
+                Log.d("ID: ", "Content-> " + task.getContent());
+                Log.d("ID: ", "Date-> " + task.getDate());
+                Log.d("ID: ", "Deadline > " + task.getDeadline());
+
                 allTasks.add(task);
 
             }while(cursor.moveToNext());
         }
-        cursor.close();
         return allTasks;
     }
 
-    void deleteTask (long id){
+    void deleteTask (Long id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATABASE_TABLE,KEY_ID+"=?",new String[]{String.valueOf(id)});
         db.close();
     }
 
+    public int editNote(Task task){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues c = new ContentValues();
+        Log.d("Edited", "Edited Title: -> "+ task.getTitle() + "\n ID -> "+task.getID());
+        c.put(KEY_TITLE,task.getTitle());
+        c.put(KEY_CONTENT,task.getContent());
+        c.put(KEY_DATE,task.getDate());
+        c.put(KEY_DEADLINE,task.getDeadline());
+        return db.update(DATABASE_TABLE,c,KEY_ID+"=?",new String[]{String.valueOf(task.getID())});
+    }
 
 
 

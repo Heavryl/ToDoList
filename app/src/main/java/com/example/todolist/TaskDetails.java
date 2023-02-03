@@ -14,11 +14,12 @@ import android.widget.Toolbar;
 
 
 public class TaskDetails extends AppCompatActivity {
+    Long id;
 
     TextView tDetails, chosenEndDate;
-    TasksDatabase db;
+
     Task task;
-    Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +30,21 @@ public class TaskDetails extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setActionBar(toolbar);
 
+        Intent intent = getIntent();
+        id = intent.getLongExtra("ID", 0);
+        Toast.makeText(this,"task details ID ->" + id,Toast.LENGTH_SHORT).show();
+
+        TasksDatabase db = new TasksDatabase(this);
+        task = db.getTask(id);
+
         tDetails = findViewById(R.id.detailsOftask);
         chosenEndDate = findViewById(R.id.detailsDeadline);
-
-        intent = getIntent();
-        long id = intent.getLongExtra("ID", 0);
-
-        db = new TasksDatabase(this);
-        task = db.getTask(id);
 
         getActionBar().setTitle(task.getTitle());
 
         tDetails.setText(task.getContent());
         chosenEndDate.setText(task.getDeadline());
-
-
-
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,13 +58,15 @@ public class TaskDetails extends AppCompatActivity {
     {
         if (item.getItemId() == R.id.detailsEditTask)
         {
-
+            Intent i = new Intent(this,EditTask.class);
+            i.putExtra("ID",id);
+            startActivity(i);
         }
         if (item.getItemId() == R.id.detailsDeleteTask)
         {
-            intent = getIntent();
+            Intent intent = getIntent();
             Long id = intent.getLongExtra("ID", 0);
-            db = new TasksDatabase(this);
+            TasksDatabase db = new TasksDatabase(this);
             task = db.getTask(id);
             db.deleteTask(task.getID());
             Toast.makeText(getApplicationContext(), "Task deleted.", Toast.LENGTH_SHORT).show();
@@ -78,6 +76,10 @@ public class TaskDetails extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
 
     private void goToMain(){
